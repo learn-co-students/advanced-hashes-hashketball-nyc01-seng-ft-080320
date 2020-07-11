@@ -1,4 +1,5 @@
-# Write your code below game_hash
+require "pry"
+
 def game_hash
   {
     home: {
@@ -126,4 +127,93 @@ def game_hash
   }
 end
 
-# Write code here
+def get_team_helper(team)
+  case team 
+  when game_hash[:home][:team_name]
+    game_hash[:home]
+  when game_hash[:away][:team_name]
+    game_hash[:away]
+    end
+  end
+  
+  def player_helper
+    game_hash[:home][:players].merge(game_hash[:away][:players])
+  end
+   
+
+def num_points_scored(player_name)
+  game_hash.each do |location, team_data|
+  team_data.each do |team, value|
+    if team == :players
+     value.each do |key|
+       if player_name == key[:player_name]
+       return key[:points]
+       end
+      end
+      end
+    end 
+  end
+end
+
+def shoe_size(player_name)
+  game_hash.each do |location, team_data|
+    team_data.each do |team, value|
+      if team == :players 
+        value.each do |key|
+          if player_name == key[:player_name]
+            return key[:shoe]
+          end
+        end
+      end
+    end
+  end
+end
+
+def team_colors(team_name)
+  game_hash.each do |location, team_data|
+      if team_data[:team_name]  == team_name 
+        return team_data[:colors]
+        end
+      end
+    end
+
+def team_names
+  game_hash.collect do |location, team|
+      team[:team_name] 
+    end
+  end 
+  
+def player_numbers(team_name)
+  get_team_helper(team_name)[:players].map do |player|
+    player[:number]
+  end
+end 
+
+def player_stats(player)
+  game_hash.each do |location, team_data|
+    team_data.each do |team, value|
+    if team == :players
+      value.each do |stats|
+        if player == stats[:player_name]
+          return stats  
+          end
+        end
+      end
+    end
+  end
+end
+
+
+def big_shoe_rebounds 
+  biggest = 0 
+  rebounds = 0 
+  game_hash.each do |location, team_data|
+      team_data[:players].each do |stats|
+          if stats[:shoe] > biggest 
+          biggest = stats[:shoe]
+          rebounds = stats[:rebounds]
+        end 
+      end
+    end
+  rebounds 
+end
