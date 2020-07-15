@@ -1,3 +1,6 @@
+require "./hashketball.rb"
+require "pry"
+
 # Write your code below game_hash
 def game_hash
   {
@@ -126,4 +129,133 @@ def game_hash
   }
 end
 
-# Write code here
+def num_points_scored(player)
+  game_hash
+  
+  game_hash.each do |team_location, first_nested_hash|
+    first_nested_hash.each do |keys, arrays_and_strings|
+      if arrays_and_strings.class == Array
+        arrays_and_strings.each do |player_stats|
+          if player_stats.class == Hash && player_stats[:player_name] == player
+            return player_stats[:points]
+          end
+        end
+      end
+    end
+  end
+end
+
+
+def shoe_size(player)
+  
+  game_hash
+  
+  game_hash.each do |team_location, first_nested_hash|
+    first_nested_hash.each do |keys, arrays_and_strings|
+      if arrays_and_strings.class == Array
+        arrays_and_strings.each do |player_stats|
+          if player_stats.class == Hash && player_stats[:player_name] == player
+            return player_stats[:shoe]
+          end
+        end
+      end
+    end
+  end
+end
+
+def team_colors(team_name)
+  game_hash
+
+  game_hash.each do |location, nested_hash|
+    if nested_hash[:team_name] == team_name
+      return nested_hash[:colors]
+    end
+  end
+end
+
+def team_names
+  game_hash
+  array = []
+  
+  game_hash.each do |location, inner_hash|
+    array.push(inner_hash[:team_name])
+  end
+  array
+end
+
+def player_numbers(team)
+  game_hash
+  array_of_players_numbers = []
+
+  game_hash.each do |location, nested_hash|
+    if nested_hash[:team_name] == team
+      nested_hash.each do |team_data, nested_structures|
+        if nested_structures.class == Array
+            nested_structures.each do |nested_hash|
+              if nested_hash.class == Hash
+                array_of_players_numbers.push(nested_hash[:number])
+              end
+            end
+          end
+        end
+      end
+    end
+  array_of_players_numbers
+end
+
+def player_stats(player)
+  game_hash
+  
+  game_hash.each do |team_location, first_nested_hash|
+    first_nested_hash.each do |keys, arrays_and_strings|
+      if arrays_and_strings.class == Array
+        arrays_and_strings.each do |player_stats|
+          if player_stats.class == Hash && player_stats[:player_name] == player
+            return player_stats
+          end
+        end
+      end
+    end
+  end
+end
+
+def big_shoe_rebounds
+  game_hash
+  array_of_shoe_sizes = []
+
+    game_hash.each do |location, nested_hash|
+      nested_hash.each do |team_data, nested_structures|
+        if nested_structures.class == Array
+            nested_structures.each do |nested_hash|
+              if nested_hash.class == Hash
+                array_of_shoe_sizes.push(nested_hash[:shoe])
+              end
+            end
+          end
+        end
+      end
+    
+  array_of_shoe_sizes
+
+  largest_shoe = array_of_shoe_sizes[0]
+  counter = 0
+  while counter < array_of_shoe_sizes.length do
+    if array_of_shoe_sizes[counter] > largest_shoe
+      largest_shoe = array_of_shoe_sizes[counter]
+    end 
+    counter += 1
+  end
+  largest_shoe
+
+   game_hash.each do |location, nested_hash|
+      nested_hash.each do |team_data, nested_structures|
+        if nested_structures.class == Array
+            nested_structures.each do |nested_hash|
+              if nested_hash.class == Hash && nested_hash[:shoe] == largest_shoe
+                    return nested_hash[:rebounds]
+              end
+            end
+          end
+        end
+      end
+end
