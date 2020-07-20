@@ -126,4 +126,137 @@ def game_hash
   }
 end
 
-# Write code here
+def num_points_scored(name)
+  
+  game_hash.each do |location, category|
+    game_hash[location][:players].each_index do |player_index|
+      if game_hash[location][:players][player_index][:player_name] == name
+        return game_hash[location][:players][player_index][:points]
+      end
+    end
+  end
+end
+
+def shoe_size(name)
+  game_hash.each do |location, category|
+    game_hash[location][:players].each_index do |player_index|
+      if game_hash[location][:players][player_index][:player_name] == name
+        return game_hash[location][:players][player_index][:shoe]
+      end
+    end
+  end  
+end
+
+def team_colors(team_name)
+  game_hash.each do |location, category|
+    if game_hash[location][:team_name] == team_name
+      return game_hash[location][:colors]
+    end
+  end
+end
+
+def team_names
+  all_names = []
+  game_hash.each do |location, category|
+    all_names << game_hash[location][:team_name]
+  end
+  all_names
+end
+
+def player_numbers(team_name)
+  jersey_numbers = []
+  game_hash.each do |location, category|
+    if game_hash[location][:team_name] == team_name
+      game_hash[location][:players].each_index do |player_index|
+        jersey_numbers << game_hash[location][:players][player_index][:number]
+      end
+    end
+  end
+  jersey_numbers
+end
+
+def player_stats(name)
+  game_hash.each do |location, category|
+    game_hash[location][:players].each_index do |player_index|
+      if game_hash[location][:players][player_index][:player_name] == name
+        return game_hash[location][:players][player_index]
+      end
+    end
+  end    
+end
+
+def big_shoe_rebounds
+  largest_shoe = 0
+  largest_shoe_rebounds = 0
+  game_hash.each do |location, category|
+    game_hash[location][:players].each_index do |player_index|
+      if game_hash[location][:players][player_index][:shoe] > largest_shoe
+        largest_shoe = game_hash[location][:players][player_index][:shoe]
+        largest_shoe_rebounds = game_hash[location][:players][player_index][:rebounds]
+      end
+    end
+  end
+  
+  return largest_shoe_rebounds
+end
+
+def most_points_scored
+  most_points = 0
+  most_points_name = ""
+  game_hash.each do |location, category|
+    game_hash[location][:players].each_index do |player_index|
+      if game_hash[location][:players][player_index][:points] > most_points
+        most_points = game_hash[location][:players][player_index][:points]
+        most_points_name = game_hash[location][:players][player_index][:player_name]
+      end
+    end
+  end
+  
+  return most_points_name # it works!
+end
+
+def winning_team
+  most_team_points = 0
+  most_team_points_name = ""
+  
+  game_hash.each do |location, category|
+    individual_team_points = 0
+    game_hash[location][:players].each_index do |player_index|
+      individual_team_points += game_hash[location][:players][player_index][:points]
+    end
+    if individual_team_points > most_team_points
+      most_team_points = individual_team_points
+      most_team_points_name = game_hash[location][:team_name]
+    end
+  end
+  return most_team_points_name # it works!
+end
+
+def player_with_longest_name
+  longest_name = ""
+    game_hash.each do |location, category|
+      game_hash[location][:players].each_index do |player_index|
+        if game_hash[location][:players][player_index][:player_name].length > longest_name.length
+          longest_name = game_hash[location][:players][player_index][:player_name]
+        end
+      end
+    end
+  return longest_name # it works!
+end
+
+def long_name_steals_a_ton?
+  most_steals = 0
+  steals_name = ""
+  game_hash.each do |location, category|
+    game_hash[location][:players].each_index do |player_index|
+      if game_hash[location][:players][player_index][:steals] > most_steals
+        most_steals = game_hash[location][:players][player_index][:steals]
+        steals_name = game_hash[location][:players][player_index][:player_name]
+      end
+    end
+  end
+  
+  if steals_name == player_with_longest_name
+    return true # it works!
+  end
+end
