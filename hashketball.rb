@@ -1,4 +1,5 @@
-# Write your code below game_hash
+require "pry"
+
 def game_hash
   {
     home: {
@@ -126,4 +127,134 @@ def game_hash
   }
 end
 
-# Write code here
+def get_player_stat(player_name, stat)
+  stat_back = 0
+  game_hash.each do |home_away, team_data|
+    count = 0
+    player_list = team_data[:players]
+    while count < player_list.length
+      if player_list[count][:player_name] == player_name
+        stat_back = player_list[count][stat]
+      end
+      count += 1
+    end
+  end
+  stat_back
+end
+
+def num_points_scored(player_name)
+  get_player_stat(player_name, :points)
+end
+
+def shoe_size(player_name)
+  get_player_stat(player_name, :shoe)
+end
+
+
+
+def team_colors(team_name)
+  if game_hash[:home][:team_name] == team_name
+    game_hash[:home][:colors]
+  else
+    game_hash[:away][:colors]
+  end
+end
+
+def team_names()
+  [game_hash[:home][:team_name], game_hash[:away][:team_name]]
+end
+
+def player_numbers(team)
+  player_list = get_player_list(team)
+  jersey_numbers = []
+  count = 0
+  while count<player_list.length
+    jersey_numbers << get_player_stat(player_list[count][:player_name], :number)
+    count += 1
+  end
+  jersey_numbers
+end
+
+def get_player_list(team)
+  player_array = []
+  if game_hash[:home][:team_name] == team
+    player_array = game_hash[:home][:players]
+  else
+    player_array = game_hash[:away][:players]
+  end
+  player_array
+end
+
+def get_full_player_list()
+  full_player_list = []
+  game_hash.each do |home_away, value|
+    value[:players].each do |player|
+      full_player_list << player
+    end
+  end
+  full_player_list
+end
+
+def player_stats(player)
+  stats = {}
+  stats_keys = game_hash[:home][:players][0].keys
+  stats_keys.each do |stat|
+    stats[stat] = get_player_stat(player, stat)
+  end
+  stats
+end
+
+def big_shoe_rebounds()
+  get_player_stat(get_player_most_stat(:shoe), :rebounds)
+end
+
+def most_points_scored()
+  get_player_stat(get_player_most_stat(:points), :points)
+end
+
+def get_player_most_stat(stat)
+  player_list = get_full_player_list
+  max_stat = nil
+  max_stat_player = ""
+  player_list.each do |player|
+    if max_stat == nil || player[stat] > max_stat
+      max_stat = player[stat]
+      max_stat_player = player[:player_name]
+    end
+  end
+  max_stat_player
+end
+
+def winning_team()
+  if team_points(team_names[0]) > team_points(team_names[1])
+    team_names[0]
+  else
+    team_names[1]
+  end
+end
+
+def team_points(team)
+  team_points = 0
+  get_player_list(team).each do |y|
+    team_points += y[:points]
+  end
+  team_points
+end
+
+def player_with_longest_name()
+  player_list = get_full_player_list
+  max_stat = ""
+  max_stat_player = ""
+  player_list.each do |player|
+    if max_stat == "" || player[:player_name].length > max_stat.length
+      max_stat = player[:player_name]
+      max_stat_player = player[:player_name]
+    end
+  end
+  max_stat_player
+end
+
+def long_name_steals_a_ton()
+  get_player_most_stat(:steals) == player_with_longest_name
+end
+
