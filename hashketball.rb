@@ -187,15 +187,10 @@ def long_name_steals_a_ton?
       test = true;
     end
     binding.pry
-    return test; #==> true Biyombo had like 22 rebounds so I think tis is workings!
+    return test; #==> true Biyombo had like 22 steals so I think tis is workings!
 end
 
-long_name_steals_a_ton?
-
-
-
-
-
+#NON BONUS STOOF:
 def num_points_scored(playerName)
   game_hash[:home][:players].each {|playerHash|
     if playerHash[:player_name] == playerName
