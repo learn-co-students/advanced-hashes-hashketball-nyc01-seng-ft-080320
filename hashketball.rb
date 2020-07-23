@@ -145,14 +145,26 @@ def most_points_scored
       mostPoints[1] = playerHash[:player_name]
     end
     }
-
-  binding.pry;
   return mostPoints[1]; #=> "Ben Gordon"
 end
 
-most_points_scored;
-
-
+def player_with_longest_name
+  longestName = ''
+  
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:player_name].length > longestName.length
+      longestName = playerHash[:player_name];
+    end
+    }
+    
+    game_hash[:away][:players].each {|playerHash|
+    if playerHash[:player_name].length > longestName.length
+      longestName = playerHash[:player_name];
+    end
+    }
+    binding.pry;
+    return longestName; #=> "Bismack Biyombo"
+end
 
 
 
