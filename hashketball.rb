@@ -127,7 +127,40 @@ def game_hash
     }
   }
 end
-  #I should of probably should of merged the hashses like in the debugging video
+#super BONUS!!!!
+
+def most_points_scored
+  mostPoints = [0, '']
+  
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:points] > mostPoints[0]
+      mostPoints[0] = playerHash[:points];
+      mostPoints[1] = playerHash[:player_name]
+    end
+    }
+    
+    game_hash[:away][:players].each {|playerHash|
+    if playerHash[:points] > mostPoints[0]
+      mostPoints[0] = playerHash[:points];
+      mostPoints[1] = playerHash[:player_name]
+    end
+    }
+
+  binding.pry;
+  return mostPoints[1]; #=> "Ben Gordon"
+end
+
+most_points_scored;
+
+
+
+
+
+
+
+
+
+
 def num_points_scored(playerName)
   game_hash[:home][:players].each {|playerHash|
     if playerHash[:player_name] == playerName
