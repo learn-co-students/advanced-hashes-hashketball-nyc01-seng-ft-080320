@@ -1,4 +1,6 @@
 # Write your code below game_hash
+
+require 'pry'
 def game_hash
   {
     home: {
@@ -125,5 +127,94 @@ def game_hash
     }
   }
 end
+  #I should of probably should of merged the hashses like in the debugging video
+def num_points_scored(playerName)
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash[:points];
+    end
+  }
+  game_hash[:away][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash[:points];
+    end
+  }
+end
 
-# Write code here
+def shoe_size(playerName)
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash[:shoe];
+    end
+  }
+  game_hash[:away][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash[:shoe];
+    end
+  }
+end
+
+def team_colors(teamName)
+  if game_hash[:home][:team_name] == teamName
+    return game_hash[:home][:colors];
+  end
+  
+  if game_hash[:away][:team_name] == teamName
+    return game_hash[:away][:colors];
+  end
+end
+
+def team_names
+  arrayOfTeamNames = [];
+  arrayOfTeamNames << game_hash[:home][:team_name];
+  arrayOfTeamNames.push(game_hash[:away][:team_name])
+  return arrayOfTeamNames;
+end
+
+def player_numbers(teamName)
+  player_numbers_array = [];
+  
+  if game_hash[:home][:team_name] == teamName
+    game_hash[:home][:players].each {|playerHash|
+      player_numbers_array << playerHash[:number];
+    }
+  else
+    game_hash[:away][:players].each {|playerHash|
+      player_numbers_array << playerHash[:number];
+    }
+  end
+  return player_numbers_array;
+end
+
+def player_stats(playerName)
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash;
+    end
+  }
+  game_hash[:away][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash;
+    end
+  }
+end
+
+def big_shoe_rebounds
+  largestShoe = [0, ''];
+  
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:shoe] > largestShoe[0]
+      largestShoe[0] = playerHash[:shoe];
+      largestShoe[1] = playerHash[:rebounds]
+    end
+    }
+  
+  game_hash[:away][:players].each {|playerHash|
+    if playerHash[:shoe] > largestShoe[0]
+      largestShoe[0] = playerHash[:shoe];
+      largestShoe[1] = playerHash[:rebounds]
+    end
+    }
+    
+  return largestShoe[1];
+end
