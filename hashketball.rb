@@ -162,12 +162,35 @@ def player_with_longest_name
       longestName = playerHash[:player_name];
     end
     }
-    binding.pry;
     return longestName; #=> "Bismack Biyombo"
 end
 
+def long_name_steals_a_ton?
+  mostSteals = [0, '']
+  longestName = player_with_longest_name;
+  test = false;
+  
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:steals] > mostSteals[0]
+      mostSteals[0] = playerHash[:steals];
+      mostSteals[1] = playerHash[:player_name]
+    end
+    }
+    
+    game_hash[:away][:players].each {|playerHash|
+    if playerHash[:steals] > mostSteals[0]
+      mostSteals[0] = playerHash[:steals];
+      mostSteals[1] = playerHash[:player_name]
+    end
+    }
+    if longestName == mostSteals[1]
+      test = true;
+    end
+    binding.pry
+    return test; #==> true Biyombo had like 22 rebounds so I think tis is workings!
+end
 
-
+long_name_steals_a_ton?
 
 
 
