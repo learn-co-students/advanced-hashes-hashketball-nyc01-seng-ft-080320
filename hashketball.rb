@@ -1,4 +1,4 @@
-# Write your code below game_hash
+require 'pry'
 def game_hash
   {
     home: {
@@ -18,25 +18,25 @@ def game_hash
         },
         {
           player_name: "Reggie Evans",
-          number: 30,
-          shoe: 14,
-          points: 12,
-          rebounds: 12,
-          assists: 12,
-          steals: 12,
-          blocks: 12,
+          number:  30,
+          shoe:  14,
+          points:  12,
+          rebounds:  12,
+          assists:  12,
+          steals:  12,
+          blocks:  12,
           slam_dunks: 7
         },
         {
           player_name: "Brook Lopez",
-          number: 11,
-          shoe: 17,
-          points: 17,
-          rebounds: 19,
-          assists: 10,
+          number:  11,
+          shoe:  17,
+          points:  17,
+          rebounds:  19,
+          assists:  10,
           steals: 3,
           blocks: 1,
-          slam_dunks: 15
+          slam_dunks:  15
         },
         {
           player_name: "Mason Plumlee",
@@ -126,4 +126,83 @@ def game_hash
   }
 end
 
-# Write code here
+def num_points_scored(player_name)
+  game_hash.each do |team, team_info|
+    team_info[:players].each do |player|
+      if player[:player_name] == player_name
+        return player[:points]
+      end
+    end
+  end
+end
+
+def shoe_size(player_name)
+  game_hash.each do |team, team_info|
+    team_info[:players].each do |player|
+      if player[:player_name] == player_name
+        return player[:shoe]
+      end
+    end
+  end
+end
+
+def player_stats(player_name)
+  game_hash.each do |team, team_info|
+    team_info.each do |key, value|
+      if key == :players
+        value.each do |player|
+          if player_name == player[:player_name]
+            return player
+          end
+        end
+      end
+    end
+  end
+end
+
+
+def all_teams
+  game_hash.values
+end
+
+def find_team(team_name)
+  all_teams.find { |team| team[:team_name] == team_name }
+end
+
+def team_names
+  all_teams.map { |team| team[:team_name] }
+end
+
+def team_colors(team_name)
+  find_team(team_name)[:colors]
+end
+
+def player_numbers(team_name)
+  output = []
+  game_hash.each do |team, team_info|
+    if team_info[:team_name] == team_name
+      team_info.each do |key, value|
+        if key == :players
+          value.each do |player|
+          output.push(player[:number])
+          end
+        end
+      end
+    end
+  end
+  output
+end
+
+def big_shoe_rebounds
+  big_shoe = 0
+  rebounds = 0
+  game_hash.each do |team, team_info|
+    team_info[:players].each do |player|
+      if player[:shoe] > big_shoe
+        big_shoe = player[:shoe]
+        rebounds = player[:rebounds]
+      end
+    end
+  end
+  return rebounds
+end
