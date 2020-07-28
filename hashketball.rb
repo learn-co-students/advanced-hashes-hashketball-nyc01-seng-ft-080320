@@ -1,3 +1,11 @@
+
+require './hashketball.rb'
+
+require 'pry'
+
+
+
+
 # Write your code below game_hash
 def game_hash
   {
@@ -127,3 +135,89 @@ def game_hash
 end
 
 # Write code here
+def num_points_scored(player_search)
+
+  game_hash.each do |location,team_stats|
+    team_stats[:players].each do |player_stats|
+      if player_stats[:player_name] == player_search
+        return player_stats[:points]
+      end
+    end
+  end
+end
+
+def shoe_size(player_search)
+  game_hash.each do |location,team_stats|
+    team_stats[:players].each do |player_stats|
+      if player_stats[:player_name] == player_search
+        return player_stats[:shoe]
+      end
+    end
+  end
+end
+
+def team_colors(team_search)
+  game_hash.each do |location,team_stats|
+    if team_stats[:team_name] == team_search
+        return team_stats[:colors]
+      #binding.pry
+      end
+    end
+  end
+
+def team_names
+  game_hash.map do |location, team_stats|
+    team_stats[:team_name]
+  #binding.pry
+  end
+#binding.pry
+end
+
+
+def player_numbers(team_input)
+  array_of_player_numbers = []
+  game_hash.each do |location,team_stats|
+    if team_stats[:team_name] == team_input 
+      team_stats.each do |key, value|
+        if key == :players
+          value.each do |player_stats|
+          array_of_player_numbers.push(player_stats[:number])
+            #binding.pry
+          end
+        end 
+      end
+    end
+  end
+  return array_of_player_numbers
+end
+#binding.pry
+def player_stats(player_search)
+game_hash.each do |location,team_stats|
+    team_stats[:players].map do |player_stats|
+      if player_stats[:player_name] == player_search
+      return player_stats
+      #binding.pry
+      end
+      #binding.pry
+    end
+  end
+end
+
+#binding.pry
+
+def big_shoe_rebounds
+  big_shoe = 0
+  rebounds = 0
+  game_hash.each do |location,team_stats|
+    team_stats[:players].each do |player_stats|
+        if player_stats[:shoe] > big_shoe 
+          big_shoe = player_stats[:shoe]
+          rebounds = player_stats[:rebounds]
+        end
+    end
+  end
+  return rebounds
+end
+          
+   
+
