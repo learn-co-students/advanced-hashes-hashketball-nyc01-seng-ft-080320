@@ -1,4 +1,5 @@
-# Write your code below game_hash
+require "pry"
+
 def game_hash
   {
     home: {
@@ -126,4 +127,97 @@ def game_hash
   }
 end
 
-# Write code here
+
+def num_points_scored(player_name)
+game_hash.each do |location, team_info|
+  team_info.each do |attribute,data_value|
+    if attribute==:players
+      data_value.each do |player_stats|
+        if player_stats[:player_name]== player_name
+          return player_stats[:points]
+        end
+      end
+    end
+end
+end
+end
+
+def shoe_size(players_name)
+  game_hash.each do |location,team|
+    team.each do |team_info_keys,stats|
+      if team_info_keys == :players
+        stats.each do|player_stats|
+        if player_stats[:player_name]==players_name
+          return player_stats[:shoe]
+        end
+    end
+    end
+
+end
+end
+end
+
+def team_colors(team_name)
+  game_hash.each do |location,team|
+    if team[:team_name]==team_name
+      return game_hash[location][:colors]
+  end
+end
+end
+
+def team_names
+  game_hash.map do |location,team|
+    team[:team_name]
+  end
+end
+
+
+def player_numbers(team_name)
+  jersey_array = []
+  game_hash.each do |location, team|
+   if team[:team_name] == team_name
+    team.each do |team_info_key, specifics|
+      if team_info_key == :players
+      specifics.each do |stat|
+        jersey_array << stat[:number]
+      end
+      end
+      end
+    end
+  end
+  jersey_array
+end
+
+def player_stats(sought_player_name)
+  new_hash = {}
+  game_hash.collect do |place, team|
+    team.each do |attribute, _data|
+      if attribute == :players
+
+      game_hash[place][attribute].each do |player|
+        if player[:player_name] == sought_player_name
+
+        new_hash = player
+        end
+      end
+    end
+  end
+  end
+  new_hash
+end
+
+def big_shoe_rebounds
+  biggest_shoe = 0
+  rebounds = 0
+
+  game_hash.each do |location, team|
+    team[:players].each do |player|
+      if player[:shoe] > biggest_shoe
+        biggest_shoe = player[:shoe]
+        rebounds = player[:rebounds]
+      end
+    end
+  end
+
+  rebounds
+end
