@@ -1,4 +1,5 @@
 # Write your code below game_hash
+require 'pry'
 def game_hash
   {
     home: {
@@ -126,4 +127,91 @@ def game_hash
   }
 end
 
-# Write code here
+def num_points_scored(player_name)
+  result = ""
+  game_hash.each do |team, team_hash|
+    # binding.pry
+    team_hash[:players].each do |player|
+      # binding.pry
+      if player[:player_name] == player_name
+        result = player[:points]
+      end
+    end
+  end
+  result
+end
+
+def shoe_size(player_name)
+  result = ""
+  game_hash.each do |team, team_hash|
+      team_hash[:players].each do |player|
+        # binding.pry
+        if player[:player_name] == player_name
+          result = player[:shoe]
+        end
+      end
+    end
+  result
+end
+
+def team_colors(team_name)
+  result = ""
+  game_hash.each do |team, team_hash|
+    # binding.pry
+    if team_hash[:team_name] == team_name
+      result = team_hash[:colors]
+    end
+  end
+  result
+end
+
+def player_numbers(team_name)
+  player_numbers_list = []
+  game_hash.each do |team, team_hash|
+    if team_hash[:team_name] == team_name
+      team_hash[:players].each do |player|
+        player.each do |key, value|
+          if key == :number
+            player_numbers_list << value
+          end
+        end
+      end
+    end
+  end
+  player_numbers_list
+end
+
+def player_stats(player_name)
+  result = ""
+  game_hash.each do |team, team_hash|
+    # binding.pry
+    team_hash[:players].each do |player|
+      # binding.pry
+      if player[:player_name] == player_name
+        result = player
+      end
+    end
+  end
+  result
+end
+
+def big_shoe_rebounds
+  big_shoes_guy = 0
+  rebounds = 0
+    game_hash.each do | team, team_hash|
+      team_hash[:players].each do | stats |
+        if stats[:shoe] > big_shoes_guy
+          big_shoes_guy = stats[:shoe]
+          rebounds = stats[:rebounds]
+        end
+      end
+    end
+  rebounds
+end
+
+def team_names
+  game_hash.collect do |team, team_hash|
+    team_hash[:team_name]
+    # binding.pry
+  end
+end
