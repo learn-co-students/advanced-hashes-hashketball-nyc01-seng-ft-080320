@@ -1,4 +1,5 @@
 # Write your code below game_hash
+require 'pry'
 def game_hash
   {
     home: {
@@ -127,3 +128,129 @@ def game_hash
 end
 
 # Write code here
+
+# helper method 
+def get_players(collection)
+  collection[:home][:players].concat(collection[:away][:players])
+end 
+
+def num_points_scored(name)
+  all_players = get_players(game_hash)
+  all_players.each do |player|
+    if player[:player_name] == name
+      return player[:points]
+    end 
+  end
+end 
+
+def shoe_size(name)
+  all_players = get_players(game_hash)
+  all_players.each do |player|
+    if player[:player_name] == name
+      return player[:shoe]
+    end
+  end 
+end 
+
+def team_colors(team)
+  game_hash.each do |team_hash, attributes|
+    if attributes.has_value?(team)
+      return attributes[:colors]
+    end   
+  end
+end 
+
+def team_names
+  game_hash.map do |team_hash, attributes|
+    attributes[:team_name]
+  end
+end
+
+def player_numbers(team)
+  player_numbers = nil
+  game_hash.each do |team_hash, attributes|
+    if attributes.has_value?(team)
+      player_numbers = attributes[:players].map do |player|
+        player[:number]
+      end 
+    end
+  end
+  player_numbers
+end
+
+def player_stats(name)
+  game_hash.each do |team_hash, attributes|
+    attributes[:players].each do |player|
+      if player.has_value?(name)
+        return player 
+      end  
+    end
+  end
+end
+
+def big_shoe_rebounds
+  all_players = get_players(game_hash)
+  biggest_shoe = 0
+  player_with_biggest_shoe = ""
+  rebound_by_big_shoe_player = 0
+  all_players.each do |player|
+    if player[:shoe] > biggest_shoe
+      biggest_shoe = player[:shoe]
+      player_with_biggest_shoe = player 
+      rebound_by_big_shoe_player = player[:rebounds]
+    end
+  end
+  rebound_by_big_shoe_player
+end 
+  
+def most_points_scored
+  all_players = get_players(game_hash)
+  most_points = 0 
+  player_with_most_points = ""
+  all_players.each do |player|
+    if player[:points] > most_points
+      most_points = player[:points]
+      player_with_most_points = player[:player_name]
+    end  
+  end
+  player_with_most_points
+end 
+
+def winning_team
+  home_team_score = get_total_score(game_hash[:home])
+  away_team_score = get_total_score(game_hash[:away])
+  home_team_score > away_team_score ? game_hash[:home][:team_name] : game_hash[:away][:team_name]
+end 
+
+#helper method for winning team
+def get_total_score(team_hash)
+  individual_player_scores = team_hash[:players].map { |player| player[:points] }
+  individual_player_scores.reduce { |sum, n| sum + n }
+end 
+
+def player_with_longest_name
+  all_players = all_players = get_players(game_hash)
+  longest_name = ""
+  all_players.each do |player|
+    if player[:player_name].length > longest_name.length
+      longest_name = player[:player_name]
+    end
+  end   
+  longest_name 
+end 
+
+def long_name_steals_a_ton?
+  all_players = all_players = get_players(game_hash)
+  player_with_max_steal = ""
+  max_steal = 0
+  all_players.each do |player|
+    if player[:steals] > max_steal
+      max_steal = player[:steals]
+      player_with_max_steal = player[:player_name]
+    end
+  end
+  player_with_max_steal == player_with_longest_name
+end
+  
+  
+
