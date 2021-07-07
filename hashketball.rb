@@ -1,4 +1,6 @@
 # Write your code below game_hash
+
+require 'pry'
 def game_hash
   {
     home: {
@@ -125,5 +127,157 @@ def game_hash
     }
   }
 end
+#super BONUS!!!!
 
-# Write code here
+def most_points_scored
+  mostPoints = [0, '']
+  
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:points] > mostPoints[0]
+      mostPoints[0] = playerHash[:points];
+      mostPoints[1] = playerHash[:player_name]
+    end
+    }
+    
+    game_hash[:away][:players].each {|playerHash|
+    if playerHash[:points] > mostPoints[0]
+      mostPoints[0] = playerHash[:points];
+      mostPoints[1] = playerHash[:player_name]
+    end
+    }
+  return mostPoints[1]; #=> "Ben Gordon"
+end
+
+def player_with_longest_name
+  longestName = ''
+  
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:player_name].length > longestName.length
+      longestName = playerHash[:player_name];
+    end
+    }
+    
+    game_hash[:away][:players].each {|playerHash|
+    if playerHash[:player_name].length > longestName.length
+      longestName = playerHash[:player_name];
+    end
+    }
+    return longestName; #=> "Bismack Biyombo"
+end
+
+def long_name_steals_a_ton?
+  mostSteals = [0, '']
+  longestName = player_with_longest_name;
+  test = false;
+  
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:steals] > mostSteals[0]
+      mostSteals[0] = playerHash[:steals];
+      mostSteals[1] = playerHash[:player_name]
+    end
+    }
+    
+    game_hash[:away][:players].each {|playerHash|
+    if playerHash[:steals] > mostSteals[0]
+      mostSteals[0] = playerHash[:steals];
+      mostSteals[1] = playerHash[:player_name]
+    end
+    }
+    if longestName == mostSteals[1]
+      test = true;
+    end
+    binding.pry
+    return test; #==> true Biyombo had like 22 steals so I think tis is workings!
+end
+
+#NON BONUS STOOF:
+def num_points_scored(playerName)
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash[:points];
+    end
+  }
+  game_hash[:away][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash[:points];
+    end
+  }
+end
+
+def shoe_size(playerName)
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash[:shoe];
+    end
+  }
+  game_hash[:away][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash[:shoe];
+    end
+  }
+end
+
+def team_colors(teamName)
+  if game_hash[:home][:team_name] == teamName
+    return game_hash[:home][:colors];
+  end
+  
+  if game_hash[:away][:team_name] == teamName
+    return game_hash[:away][:colors];
+  end
+end
+
+def team_names
+  arrayOfTeamNames = [];
+  arrayOfTeamNames << game_hash[:home][:team_name];
+  arrayOfTeamNames.push(game_hash[:away][:team_name])
+  return arrayOfTeamNames;
+end
+
+def player_numbers(teamName)
+  player_numbers_array = [];
+  
+  if game_hash[:home][:team_name] == teamName
+    game_hash[:home][:players].each {|playerHash|
+      player_numbers_array << playerHash[:number];
+    }
+  else
+    game_hash[:away][:players].each {|playerHash|
+      player_numbers_array << playerHash[:number];
+    }
+  end
+  return player_numbers_array;
+end
+
+def player_stats(playerName)
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash;
+    end
+  }
+  game_hash[:away][:players].each {|playerHash|
+    if playerHash[:player_name] == playerName
+      return playerHash;
+    end
+  }
+end
+
+def big_shoe_rebounds
+  largestShoe = [0, ''];
+  
+  game_hash[:home][:players].each {|playerHash|
+    if playerHash[:shoe] > largestShoe[0]
+      largestShoe[0] = playerHash[:shoe];
+      largestShoe[1] = playerHash[:rebounds]
+    end
+    }
+  
+  game_hash[:away][:players].each {|playerHash|
+    if playerHash[:shoe] > largestShoe[0]
+      largestShoe[0] = playerHash[:shoe];
+      largestShoe[1] = playerHash[:rebounds]
+    end
+    }
+    
+  return largestShoe[1];
+end
